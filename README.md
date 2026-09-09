@@ -52,6 +52,3 @@ Repositori ini dikembangkan untuk membangun aplikasi Sistem Pendukung Keputusan 
 5. Login menggunakan akun administrator default:
    * **Username**: `admin`
    * **Password**: `admin`
-6. Untuk melihat alur perhitungan manual secara lengkap, buka berkas dokumen yang tersedia di root proyek:
-   * **Perhitungan Excel**: [Perhitungan Manual AHP-SAW.xlsx](Perhitungan%20Manual%20AHP-SAW.xlsx)
-   * **Laporan HTML**: [Perhitungan Manual AHP-SAW.html](Perhitungan%20Manual%20AHP-SAW.html)
