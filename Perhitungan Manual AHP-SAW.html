@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perhitungan Manual AHP-SAW | SPK Pemilihan Mentor</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Serif+4:wght@400;600;700&display=swap');
+
+        :root {
+            --primary: #1e4e79;
+            --primary-light: #2f75b5;
+            --primary-lighter: #d9e1f2;
+            --accent: #2c7a7b;
+            --accent-light: #e6fffa;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --success: #1e4620;
+            --success-bg: #edf7ed;
+            --success-border: #c8e6c9;
+            --row-alt: #f8fafc;
+            --highlight: #f2f5fa;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            font-size: 14px;
+        }
+
+        .page-wrapper {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* ── Header ── */
+        .report-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: #ffffff;
+            padding: 40px 48px;
+            border-radius: 12px;
+            margin-bottom: 32px;
+            box-shadow: 0 4px 24px rgba(30, 78, 121, 0.25);
+        }
+        .report-header .badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.18);
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+        .report-header h1 {
+            font-family: 'Source Serif 4', Georgia, serif;
+            font-size: 26px;
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 8px;
+        }
+        .report-header .subtitle {
+            font-size: 15px;
+            opacity: 0.88;
+            font-weight: 400;
+        }
+        .report-header .meta {
+            margin-top: 18px;
+            font-size: 12px;
+            display: flex;
+            gap: 20px;
+            opacity: 0.85;
+        }
+
+        /* ── Card ── */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 32px 40px;
+            margin-bottom: 32px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02), 0 1px 2px rgba(0,0,0,0.04);
+        }
+        .card h2 {
+            font-family: 'Source Serif 4', Georgia, serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .card h3 {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--primary-light);
+            margin-top: 24px;
+            margin-bottom: 12px;
+            border-bottom: 2px solid var(--primary-lighter);
+            padding-bottom: 6px;
+        }
+        .card h4 {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text);
+            margin-top: 16px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .card p {
+            margin-bottom: 16px;
+            color: var(--text);
+        }
+        .card .section-desc {
+            font-size: 13.5px;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+        }
+
+        .section-label {
+            display: inline-block;
+            background: var(--primary-lighter);
+            color: var(--primary);
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 10px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 12px;
+        }
+        .section-label.green {
+            background: #e6fffa;
+            color: #2c7a7b;
+        }
+
+        /* ── Tables ── */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 13px;
+        }
+        th, td {
+            padding: 10px 14px;
+            border: 1px solid var(--border);
+            text-align: left;
+        }
+        th {
+            background: #f1f5f9;
+            font-weight: 600;
+            color: var(--primary);
+        }
+        tr:nth-child(even) td {
+            background: var(--row-alt);
+        }
+        .sum-row td {
+            font-weight: 700;
+            background: var(--primary-lighter) !important;
+            color: var(--primary);
+            border-top: 2px solid var(--primary);
+        }
+        table.green-header th {
+            background: #e2edf8;
+            color: var(--primary);
+        }
+
+        /* ── Formula Box ── */
+        .formula-box {
+            background: #f8fafc;
+            border-left: 4px solid var(--primary-light);
+            padding: 16px 20px;
+            margin: 16px 0;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 13px;
+            border-radius: 0 8px 8px 0;
+        }
+        .formula-box .label {
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--primary-light);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 4px;
+        }
+
+        /* ── Callout ── */
+        .callout {
+            border-radius: 8px;
+            padding: 16px 20px;
+            margin: 16px 0;
+            font-size: 13.5px;
+        }
+        .callout.success {
+            background: var(--success-bg);
+            border: 1px solid var(--success-border);
+            color: var(--success);
+        }
+        .callout.info {
+            background: #ebf8ff;
+            border: 1px solid #bee3f8;
+            color: #2b6cb0;
+        }
+        .callout strong { font-weight: 700; }
+        .callout .icon { font-size: 16px; margin-right: 6px; }
+
+        /* ── Calculation Detail ── */
+        .calc-detail {
+            background: #fafbfc;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 14px 18px;
+            margin: 10px 0;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 12.5px;
+            line-height: 1.8;
+            overflow-x: auto;
+            white-space: pre-wrap;
+        }
+        .calc-detail .var { color: var(--primary-light); font-weight: 600; }
+        .calc-detail .result { color: #15803d; font-weight: 700; }
+
+        /* ── Rank Badge ── */
+        .rank-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px; height: 28px;
+            border-radius: 50%;
+            font-size: 13px;
+            font-weight: 700;
+            color: #fff;
+        }
+        .rank-1 { background: #d97706; }
+        .rank-2 { background: #64748b; }
+        .rank-3 { background: #b45309; }
+        .rank-other { background: #94a3b8; }
+
+        /* ── Data List ── */
+        .data-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin: 14px 0;
+        }
+        .data-item {
+            background: #f8fafc;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 10px 14px;
+        }
+        .data-item .code {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 13px;
+        }
+        .data-item .name {
+            font-size: 13px;
+            color: var(--text);
+        }
+
+        /* ── RI Table ── */
+        .ri-table { max-width: 100%; }
+        .ri-table td, .ri-table th { padding: 6px 10px; font-size: 12px; }
+
+        /* ── Print ── */
+        @media print {
+            body { background: #fff; font-size: 11pt; }
+            .page-wrapper { max-width: 100%; padding: 0; }
+            .report-header { border-radius: 0; box-shadow: none; }
+            .card { box-shadow: none; break-inside: avoid; }
+            table { font-size: 10pt; }
+        }
+
+        .toc { margin: 0; padding-left: 20px; }
+        .toc li { margin-bottom: 4px; font-size: 13.5px; }
+        .toc a { color: var(--primary-light); text-decoration: none; }
+        .toc a:hover { text-decoration: underline; }
+
+        .weight-bar-container {
+            display: flex; align-items: center; gap: 8px;
+        }
+        .weight-bar {
+            height: 10px;
+            border-radius: 5px;
+            background: var(--primary-light);
+        }
+        .weight-value { font-weight: 600; font-size: 12.5px; white-space: nowrap; }
+    </style>
+</head>
+<body>
+<div class="page-wrapper">
+
+    <!-- HEADER -->
+    <header class="report-header">
+        <div class="badge">Dokumen Perhitungan Manual</div>
+        <h1>Sistem Pendukung Keputusan Pemilihan Mentor Program Magang Internal</h1>
+        <div class="subtitle">Menggunakan Metode AHP (<em>Analytical Hierarchy Process</em>) dan SAW (<em>Simple Additive Weighting</em>)</div>
+        <div class="meta">
+            <span>📄 Perhitungan Lengkap</span>
+            <span>📊 3 Kriteria &bull; 8 Alternatif</span>
+            <span>📅 2026</span>
+        </div>
+    </header>
+
+    <!-- DAFTAR ISI -->
+    <div class="card">
+        <h2>📑 Daftar Isi</h2>
+        <ol class="toc" style="margin-top:12px;">
+            <li><a href="#data-awal">Data Awal (Alternatif &amp; Kriteria)</a></li>
+            <li><a href="#ahp">Metode AHP — Penentuan Bobot Kriteria</a>
+                <ol style="padding-left:18px; margin-top:4px;">
+                    <li><a href="#ahp-1">Matriks Perbandingan Berpasangan</a></li>
+                    <li><a href="#ahp-2">Normalisasi Matriks</a></li>
+                    <li><a href="#ahp-3">Bobot Prioritas</a></li>
+                    <li><a href="#ahp-4">Uji Konsistensi (CR)</a></li>
+                </ol>
+            </li>
+            <li><a href="#saw">Metode SAW — Perankingan Alternatif</a>
+                <ol style="padding-left:18px; margin-top:4px;">
+                    <li><a href="#saw-1">Matriks Keputusan (X)</a></li>
+                    <li><a href="#saw-2">Normalisasi Matriks (R)</a></li>
+                    <li><a href="#saw-3">Nilai Preferensi (V)</a></li>
+                    <li><a href="#saw-4">Ranking Akhir</a></li>
+                </ol>
+            </li>
+            <li><a href="#kesimpulan">Kesimpulan</a></li>
+        </ol>
+    </div>
+
+    <!-- DATA AWAL -->
+    <div class="card" id="data-awal">
+        <div class="section-label">Bagian 0</div>
+        <h2>Data Awal</h2>
+        <p class="section-desc">Daftar alternatif calon mentor (pemetaan nama kelompok) dan kriteria penilaian berdasarkan jurnal referensi.</p>
+
+        <h3>Alternatif (Calon Mentor &amp; Data Pembanding)</h3>
+            <div class="data-item"><span class="code">A1</span> <span class="name">— Dewi Andrayani (Mahasiswa 8)</span></div>
+            <div class="data-item"><span class="code">A2</span> <span class="name">— Haykal Azizi (Mahasiswa 2)</span></div>
+            <div class="data-item"><span class="code">A3</span> <span class="name">— Helmi Aziz (Mahasiswa 4)</span></div>
+            <div class="data-item"><span class="code">A4</span> <span class="name">— Sheva Al Nascutha (Mahasiswa 1)</span></div>
+            <div class="data-item"><span class="code">A5</span> <span class="name">— Mahasiswa 5</span></div>
+            <div class="data-item"><span class="code">A6</span> <span class="name">— Mahasiswa 6</span></div>
+            <div class="data-item"><span class="code">A7</span> <span class="name">— Mahasiswa 7</span></div>
+            <div class="data-item"><span class="code">A8</span> <span class="name">— Mahasiswa 8 (Mahasiswa 3 di Jurnal)</span></div>
+
+        <h3>Kriteria Penilaian</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Kode</th>
+                    <th>Kriteria</th>
+                    <th>Sub Kriteria / Skala Penilaian</th>
+                    <th>Atribut</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>C1</strong></td>
+                    <td>English Proficiency Test (EPT)</td>
+                    <td>&ge;600 (5), 550-599 (4), 500-549 (3), 450-499 (2), &lt;450 (1)</td>
+                    <td>✅ Benefit</td>
+                </tr>
+                <tr>
+                    <td><strong>C2</strong></td>
+                    <td>Indeks Prestasi Kumulatif (IPK)</td>
+                    <td>&ge;3.75 (5), 3.50-3.74 (4), 3.00-3.49 (3), 2.50-2.99 (2), &lt;2.50 (1)</td>
+                    <td>✅ Benefit</td>
+                </tr>
+                <tr>
+                    <td><strong>C3</strong></td>
+                    <td>Jurusan</td>
+                    <td>Teknik &amp; Rekayasa (1), IT &amp; Komputer (2), Ekonomi &amp; Manajemen (3), Pariwisata &amp; Komunikasi (4), Seni &amp; Lainnya (5)</td>
+                    <td>🔻 Cost</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="callout info">
+            <strong><span class="icon">ℹ️</span> Catatan:</strong> Kriteria Jurusan bertindak sebagai <em>Cost</em> dengan skema: prioritas tertinggi (Teknik/Rekayasa) diberi nilai terkecil (1) sehingga saat dilakukan normalisasi cost (Min/Xij) ia akan memperoleh nilai terbesar.
+        </div>
+    </div>
+
+    <!-- AHP SECTION -->
+    <div class="card" id="ahp">
+        <div class="section-label">Bagian 1</div>
+        <h2>Metode AHP — Penentuan Bobot Kriteria</h2>
+        <p class="section-desc">Analytical Hierarchy Process (AHP) digunakan untuk menghitung bobot prioritas kriteria berdasarkan matriks perbandingan berpasangan (3x3).</p>
+
+        <h3 id="ahp-1">Langkah 1 — Matriks Perbandingan Berpasangan</h3>
+        <p>Penilaian perbandingan kepentingan kriteria menggunakan Skala Saaty (1–9) sesuai jurnal:</p>
+
+        <h4>a) Bentuk Pecahan / Desimal</h4>
+        <table>
+            <thead>
+                <tr><th>Kriteria</th><th>EPT (C1)</th><th>IPK (C2)</th><th>Jurusan (C3)</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><strong>EPT (C1)</strong></td><td>1.0000</td><td>5.0000</td><td>9.0000</td></tr>
+                <tr><td><strong>IPK (C2)</strong></td><td>0.2000</td><td>1.0000</td><td>5.0000</td></tr>
+                <tr><td><strong>Jurusan (C3)</strong></td><td>0.1111</td><td>0.2000</td><td>1.0000</td></tr>
+                <tr class="sum-row"><td><strong>Jumlah</strong></td><td>1.3111</td><td>6.2000</td><td>15.0000</td></tr>
+            </tbody>
+        </table>
+
+        <h3 id="ahp-2">Langkah 2 — Normalisasi Matriks</h3>
+        <div class="formula-box">
+            <div class="label">Rumus Normalisasi</div>
+            N<sub>ij</sub> = a<sub>ij</sub> / jumlah kolom ke-j
+        </div>
+
+        <div class="calc-detail">
+<strong>Baris C1 (EPT):</strong>
+  1.0000 / 1.3111 = <span class="result">0.7627</span> | 5.0000 / 6.2000 = <span class="result">0.8065</span> | 9.0000 / 15.0000 = <span class="result">0.6000</span>
+<strong>Baris C2 (IPK):</strong>
+  0.2000 / 1.3111 = <span class="result">0.1525</span> | 1.0000 / 6.2000 = <span class="result">0.1613</span> | 5.0000 / 15.0000 = <span class="result">0.3333</span>
+<strong>Baris C3 (Jurusan):</strong>
+  0.1111 / 1.3111 = <span class="result">0.0847</span> | 0.2000 / 6.2000 = <span class="result">0.0323</span> | 1.0000 / 15.0000 = <span class="result">0.0667</span></div>
+
+        <h4>Matriks Ternormalisasi</h4>
+        <table>
+            <thead>
+                <tr><th>Kriteria</th><th>C1</th><th>C2</th><th>C3</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><strong>C1</strong></td><td>0.7627</td><td>0.8065</td><td>0.6000</td></tr>
+                <tr><td><strong>C2</strong></td><td>0.1525</td><td>0.1613</td><td>0.3333</td></tr>
+                <tr><td><strong>C3</strong></td><td>0.0847</td><td>0.0323</td><td>0.0667</td></tr>
+                <tr class="sum-row"><td><strong>Jumlah</strong></td><td>1.0000</td><td>1.0000</td><td>1.0000</td></tr>
+            </tbody>
+        </table>
+
+        <h3 id="ahp-3">Langkah 3 — Bobot Prioritas (Priority Vector)</h3>
+        <div class="calc-detail">
+<strong>W₁ (EPT)</strong> = (0.7627 + 0.8065 + 0.6000) / 3 = 2.1692 / 3 = <span class="result">0.7231</span> (72.31%)
+<strong>W₂ (IPK)</strong> = (0.1525 + 0.1613 + 0.3333) / 3 = 0.6471 / 3 = <span class="result">0.2157</span> (21.57%)
+<strong>W₃ (Jurusan)</strong> = (0.0847 + 0.0323 + 0.0667) / 3 = 0.1837 / 3 = <span class="result">0.0612</span> (6.12%)</div>
+
+        <h4>Tabel Bobot Kriteria</h4>
+        <table>
+            <thead>
+                <tr><th>Kriteria</th><th>Bobot (W)</th><th>Persentase</th><th>Visualisasi</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>C1</strong> – EPT</td>
+                    <td><strong>0.7231</strong></td>
+                    <td>72.31%</td>
+                    <td><div class="weight-bar-container"><div class="weight-bar" style="width:calc(723.1px * 0.6)"></div></div></td>
+                </tr>
+                <tr>
+                    <td><strong>C2</strong> – IPK</td>
+                    <td><strong>0.2157</strong></td>
+                    <td>21.57%</td>
+                    <td><div class="weight-bar-container"><div class="weight-bar" style="width:calc(215.7px * 0.6)"></div></div></td>
+                </tr>
+                <tr>
+                    <td><strong>C3</strong> – Jurusan</td>
+                    <td><strong>0.0612</strong></td>
+                    <td>6.12%</td>
+                    <td><div class="weight-bar-container"><div class="weight-bar" style="width:calc(61.2px * 0.6)"></div></div></td>
+                </tr>
+                <tr class="sum-row">
+                    <td><strong>Total</strong></td>
+                    <td><strong>1.0000</strong></td>
+                    <td><strong>100.00%</strong></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 id="ahp-4">Langkah 4 — Uji Konsistensi (Consistency Ratio)</h3>
+        <p>Perhitungan Uji Konsistensi menggunakan parameter dari Jurnal:</p>
+        <div class="calc-detail">
+• <strong>&lambda;<sub>maks</sub></strong> = <span class="result">3.0220</span>
+• <strong>CI (Consistency Index)</strong> = (3.0220 - 3) / 2 = <span class="result">0.0110</span>
+• <strong>RI (Random Index, n=3)</strong> = <span class="result">0.58</span>
+• <strong>CR (Consistency Ratio)</strong> = 0.0110 / 0.58 = <span class="result">0.0190</span></div>
+
+        <div class="callout success">
+            <strong>✅ CR = 0.0190 &lt; 0.10 → Matriks Perbandingan KONSISTEN</strong><br>
+            Penilaian perbandingan kepentingan kriteria valid dan dapat digunakan dalam perhitungan SAW.
+        </div>
+    </div>
+
+    <!-- SAW SECTION -->
+    <div class="card" id="saw">
+        <div class="section-label green">Bagian 2</div>
+        <h2>Metode SAW — Perankingan Alternatif</h2>
+        <p class="section-desc">Simple Additive Weighting (SAW) menormalisasi matriks keputusan dan menghitung skor preferensi berdasarkan bobot kriteria AHP.</p>
+
+        <h3 id="saw-1">Langkah 1 — Matriks Keputusan (X)</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Alternatif</th>
+                    <th>C1 (EPT)</th>
+                    <th>C2 (IPK)</th>
+                    <th>C3 (Jurusan)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td><strong>A1</strong> – Dewi Andrayani</td><td>4</td><td>3</td><td>3</td></tr>
+                <tr><td><strong>A2</strong> – Haykal Azizi</td><td>4</td><td>3</td><td>5</td></tr>
+                <tr style="background:#edf7ed;"><td><strong>A3</strong> – Helmi Aziz</td><td>5</td><td>5</td><td>3</td></tr>
+                <tr><td><strong>A4</strong> – Sheva Al Nascutha</td><td>3</td><td>3</td><td>3</td></tr>
+                <tr><td><strong>A5</strong> – Mahasiswa 5</td><td>1</td><td>3</td><td>2</td></tr>
+                <tr><td><strong>A6</strong> – Mahasiswa 6</td><td>2</td><td>2</td><td>1</td></tr>
+                <tr><td><strong>A7</strong> – Mahasiswa 7</td><td>1</td><td>4</td><td>2</td></tr>
+                <tr><td><strong>A8</strong> – Mahasiswa 8</td><td>2</td><td>3</td><td>4</td></tr>
+                <tr class="sum-row">
+                    <td><strong>Max / Min</strong></td>
+                    <td>Max = 5</td><td>Max = 5</td><td>Min = 1</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 id="saw-2">Langkah 2 — Normalisasi Matriks (R)</h3>
+        <div class="formula-box">
+            <div class="label">Rumus Normalisasi SAW</div>
+            <strong>Benefit:</strong> R<sub>ij</sub> = X<sub>ij</sub> / Max(X<sub>j</sub>) | <strong>Cost:</strong> R<sub>ij</sub> = Min(X<sub>j</sub>) / X<sub>ij</sub>
+        </div>
+
+        <div class="calc-detail">
+• <strong>C1 — EPT (Benefit, Max = 5)</strong>
+  A1: 1/5 = 0.20 | A2: 4/5 = 0.80 | A3: 2/5 = 0.40 | A4: 5/5 = 1.00 | A5: 3/5 = 0.60 | A6: 2/5 = 0.40 | A7: 1/5 = 0.20 | A8: 4/5 = 0.80
+
+• <strong>C2 — IPK (Benefit, Max = 5)</strong>
+  A1: 3/5 = 0.60 | A2: 3/5 = 0.60 | A3: 3/5 = 0.60 | A4: 5/5 = 1.00 | A5: 3/5 = 0.60 | A6: 2/5 = 0.40 | A7: 4/5 = 0.80 | A8: 3/5 = 0.60
+
+• <strong>C3 — Jurusan (Cost, Min = 1)</strong>
+  A1: 1/2 = 0.50 | A2: 1/5 = 0.20 | A3: 1/4 = 0.25 | A4: 1/3 = 0.33 | A5: 1/3 = 0.33 | A6: 1/1 = 1.00 | A7: 1/2 = 0.50 | A8: 1/3 = 0.33</div>
+
+        <h4>Matriks Ternormalisasi (R)</h4>
+        <table>
+            <thead>
+                <tr><th>Alternatif</th><th>C1</th><th>C2</th><th>C3</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><strong>A1</strong> – Dewi Andrayani</td><td>0.8000</td><td>0.6000</td><td>0.3333</td></tr>
+                <tr><td><strong>A2</strong> – Haykal Azizi</td><td>0.8000</td><td>0.6000</td><td>0.2000</td></tr>
+                <tr style="background:#edf7ed;"><td><strong>A3</strong> – Helmi Aziz</td><td>1.0000</td><td>1.0000</td><td>0.3333</td></tr>
+                <tr><td><strong>A4</strong> – Sheva Al Nascutha</td><td>0.6000</td><td>0.6000</td><td>0.3333</td></tr>
+                <tr><td><strong>A5</strong> – Mahasiswa 5</td><td>0.2000</td><td>0.6000</td><td>0.5000</td></tr>
+                <tr><td><strong>A6</strong> – Mahasiswa 6</td><td>0.4000</td><td>0.4000</td><td>1.0000</td></tr>
+                <tr><td><strong>A7</strong> – Mahasiswa 7</td><td>0.2000</td><td>0.8000</td><td>0.5000</td></tr>
+                <tr><td><strong>A8</strong> – Mahasiswa 8</td><td>0.4000</td><td>0.6000</td><td>0.2500</td></tr>
+            </tbody>
+        </table>
+
+        <h3 id="saw-3">Langkah 3 — Nilai Preferensi (V)</h3>
+        <div class="formula-box">
+            <div class="label">Rumus Preferensi</div>
+            V<sub>i</sub> = &Sigma; (W<sub>j</sub> &times; R<sub>ij</sub>)
+        </div>
+        <p style="font-size:12px; margin-bottom:8px;">Bobot AHP: W₁ = 0.7231 | W₂ = 0.2157 | W₃ = 0.0612</p>
+
+        <div class="calc-detail">
+<strong>V(A1 — Dewi)</strong>    = (0.7231 × 0.80) + (0.2157 × 0.60) + (0.0612 × 0.3333) = 0.5785 + 0.1294 + 0.0204 = <span class="result">0.7283</span>
+<strong>V(A2 — Haykal)</strong>  = (0.7231 × 0.80) + (0.2157 × 0.60) + (0.0612 × 0.20) = 0.5785 + 0.1294 + 0.0122 = <span class="result">0.7202</span>
+<strong>V(A3 — Helmi)</strong>   = (0.7231 × 1.00) + (0.2157 × 1.00) + (0.0612 × 0.3333) = 0.7231 + 0.2157 + 0.0204 = <span class="result">0.9592</span>
+<strong>V(A4 — Sheva)</strong>   = (0.7231 × 0.60) + (0.2157 × 0.60) + (0.0612 × 0.3333) = 0.4339 + 0.1294 + 0.0204 = <span class="result">0.5837</span>
+<strong>V(A5 — Mhs 5)</strong>   = (0.7231 × 0.20) + (0.2157 × 0.60) + (0.0612 × 0.50) = 0.1446 + 0.1294 + 0.0306 = <span class="result">0.3046</span>
+<strong>V(A6 — Mhs 6)</strong>   = (0.7231 × 0.40) + (0.2157 × 0.40) + (0.0612 × 1.00) = 0.2892 + 0.0863 + 0.0612 = <span class="result">0.4367</span>
+<strong>V(A7 — Mhs 7)</strong>   = (0.7231 × 0.20) + (0.2157 × 0.80) + (0.0612 × 0.50) = 0.1446 + 0.1726 + 0.0306 = <span class="result">0.3478</span>
+<strong>V(A8 — Mhs 8)</strong>   = (0.7231 × 0.40) + (0.2157 × 0.60) + (0.0612 × 0.25) = 0.2892 + 0.1294 + 0.0153 = <span class="result">0.4339</span></div>
+
+        <h3 id="saw-4">Langkah 4 — Ranking Akhir</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Ranking</th>
+                    <th>Alternatif</th>
+                    <th>Nilai Preferensi (V)</th>
+                    <th>Keterangan</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="background:#edf7ed;">
+                    <td><span class="rank-badge rank-1">1</span></td>
+                    <td><strong>Helmi Aziz</strong></td>
+                    <td><strong style="color:#1e4620;">0.9592</strong></td>
+                    <td>Rekomendasi Utama (Rank 1)</td>
+                </tr>
+                <tr>
+                    <td><span class="rank-badge rank-2">2</span></td>
+                    <td>Dewi Andrayani</td>
+                    <td>0.7283</td>
+                    <td>Alternatif Terbaik 2</td>
+                </tr>
+                <tr>
+                    <td><span class="rank-badge rank-3">3</span></td>
+                    <td>Haykal Azizi</td>
+                    <td>0.7202</td>
+                    <td>Alternatif Terbaik 3</td>
+                </tr>
+                <tr>
+                    <td><span class="rank-badge rank-other">4</span></td>
+                    <td><strong>Sheva Al Nascutha</strong></td>
+                    <td>0.5837</td>
+                    <td>Alternatif Terbaik 4</td>
+                </tr>
+                <tr>
+                    <td><span class="rank-badge rank-other">5</span></td>
+                    <td>Mahasiswa 6</td>
+                    <td>0.4367</td>
+                    <td>Alternatif Terbaik 5</td>
+                </tr>
+                <tr>
+                    <td><span class="rank-badge rank-other">6</span></td>
+                    <td>Mahasiswa 8</td>
+                    <td>0.4339</td>
+                    <td>Alternatif Terbaik 6</td>
+                </tr>
+                <tr>
+                    <td><span class="rank-badge rank-other">7</span></td>
+                    <td>Mahasiswa 7</td>
+                    <td>0.3478</td>
+                    <td>Alternatif Terbaik 7</td>
+                </tr>
+                <tr>
+                    <td><span class="rank-badge rank-other">8</span></td>
+                    <td>Mahasiswa 5</td>
+                    <td>0.3046</td>
+                    <td>Alternatif Terbaik 8</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- KESIMPULAN -->
+    <div class="card" id="kesimpulan">
+        <div class="section-label" style="background:#d97706; color:#fff;">Kesimpulan</div>
+        <h2>🏆 Hasil Keputusan Akhir</h2>
+        <div class="callout success" style="font-size:15px; margin-top:16px;">
+            <strong>Helmi Aziz</strong> resmi direkomendasikan sebagai <strong>Mentor Terbaik Magang Internal</strong> dengan nilai preferensi tertinggi sebesar <strong>0.9592</strong>.
+        </div>
+        <p style="margin-top:14px; font-size:13.5px;">
+            Dengan pembobotan AHP yang menempatkan <strong>English Proficiency Test (EPT) (72.31%)</strong> sebagai kriteria paling krusial, 
+            Helmi Aziz yang memiliki EPT maksimal (5) dan IPK maksimal (5) berhasil mendominasi peringkat teratas.
+        </p>
+    </div>
+
+    <!-- FOOTER -->
+    <div style="text-align:center; padding:20px 0; color:var(--text-muted); font-size:11px;">
+        <p>Dokumen Perhitungan Manual — SPK Pemilihan Mentor Magang Internal</p>
+        <p>Metode AHP-SAW Hybrid &bull; Kelompok 5</p>
+    </div>
+
+</div>
+</body>
+</html>

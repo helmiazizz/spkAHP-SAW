@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6366f1" />
+      <stop offset="100%" stop-color="#4f46e5" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="1" stdDeviation="1" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+  <!-- Background Rounded Rect -->
+  <rect width="32" height="32" rx="8" fill="url(#grad)" />
+  <!-- Trophy Emblem with Shadow -->
+  <g filter="url(#shadow)" fill="#ffffff">
+    <!-- Star Emblem representing Top Choice -->
+    <path d="M16 6.5l2.2 4.5 5 .7-3.6 3.5.8 5-4.4-2.3-4.4 2.3.8-5-3.6-3.5 5-.7z" />
+    <!-- Small Trophy Stand -->
+    <path d="M16 20.5v3.5M12 24h8" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+  </g>
+</svg>
